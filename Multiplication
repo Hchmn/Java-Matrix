@@ -1,0 +1,250 @@
+// *****    ***
+// *** **   ***
+// ***  **  ***
+// ***   ** ***
+// ***    *****
+
+This Program is to compute the (i,j) entry of product of the two matrices. 
+
+ALGORITHM
+
+Input:
+	rowA = this is the selected row of Matrix A
+	columnB = this is the selected column of Matrix B
+	MatrixA = this is an array that contains the sequence of element N of Matrix A
+	MatrixB = this is an array that contains the sequence of element N of Matrix B
+	rowsizeA = this is the size  row of Matrix A
+	rowsizeB = this is the size row of  Matrix B
+	columnsizeA = this is the size column of Matrix A
+	columnsizeB = this is the size column of Matrix B
+
+Output:
+	product_sum = sum of product entered (i,j) of two matrices
+
+Steps.
+Create an Array RowA that contains the selected row of MatrixA
+Create an Array ColumnB that contains the selected column of MatrixB
+Create an Array Product that contains the product (i,j) of the MatrixA and MatrixB
+
+Get the elements of selected row in Matrix A
+for i <- rowA-1 to row do
+		for j <- 0 to columnsizeA do
+			RowA[k] <- MatrixA[i][k]
+      5.	Get the elements of selected column in Matrix B
+for i <- 0 to rowsizeB do
+for j <- 0 to columnsizeB do
+if j is equals to columnB-1 then
+ColumnB[i] <- MatrixB[i][j]
+      6.	Transpose the Row of Matrix
+
+      7.	Get the Product of of (i,j) of the MatrixA and MatrixB
+      8.	for i <- 0  to the length of the Product do
+		Product[i] <- RowA[i] * ColumnB[i]
+      9.	Get the sum of the Product
+     10.	for i <- 0 to the length of the Product do
+		product_sum <- product_sum + Product[i]
+     11. Display product_sum
+     12. Stop
+
+
+CODE
+
+package ITE114;
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+	Scanner reader = new Scanner (System.in);
+		
+	AddingMatrices addmatrix = new AddingMatrices(); 
+	MultiplyMatrices multiplymatrix = new MultiplyMatrices();
+	ComputeEntryProduct entryproduct = new ComputeEntryProduct();
+		
+	char Y;
+	
+		
+		do {
+			System.out.println("Select\n1 - Adding Matrices\n2 - Multiplying Matrices\n3 - Computing The Entry of Product");
+			System.out.println("Enter your choice:");
+			int choice = reader.nextInt();
+			
+			if (choice == 1) {
+				addmatrix.SetNumberMatrix();
+				}
+			
+			else if(choice == 2){
+				multiplymatrix.NumMatrix();
+				}
+			
+			else if(choice == 3){
+				entryproduct.CreateMatrix();
+			}
+			
+			System.out.println("Do you want to run another program?\n"+"Enter Y/N:");
+			Y = reader.next().charAt(0);
+			
+			}while(Y == 'Y' || Y == 'y');
+		System.out.println("Thank You");
+		
+}
+}
+package ITE114;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+
+/**
+*
+* @author 2018-2197
+*/
+
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class ComputeEntryProduct {
+   public Scanner reader = new Scanner (System.in);
+   int []rows,columns;
+   ArrayList <int[][]>matrices;
+   ArrayList <int[][]>product;
+   int numMatrix = 2;
+  
+public void CreateMatrix(){
+   matrices = new ArrayList<int[][]>(this.numMatrix);
+   product = new ArrayList <int[][]>(1);
+   this.rows = new int [this.numMatrix];
+   this.columns = new int [this.numMatrix];
+   
+   
+   for(int i = 0; i < this.numMatrix; i++){
+       System.out.println("Creating Matrix"+(i+1));
+       System.out.println("Enter the row:");
+       int row = reader.nextInt();
+       this.rows[i] = row;
+       
+       System.out.println("Enter the column");
+       int column = reader.nextInt();
+       this.columns[i] = column;
+       
+       int matrix[][] = new int [row][column];
+       for (int x = 0; x < row; x++){
+           for(int k = 0; k <  column; k++){
+               System.out.println("Enter Data of Matrix:");
+               matrix[x][k] = reader.nextInt();
+           }
+       }
+       this.matrices.add(matrix);
+      
+       
+   }
+   ShowTable();
+   
+}
+public void ShowTable(){
+   int counter = 0;
+   while(counter < this.matrices.size()){
+       int matrix[][] = this.matrices.get(counter);
+       System.out.println("Table of Matrix"+(counter+1));
+           
+       for(int i = 0; i < this.rows[counter]; i++){
+           for(int k = 0; k < this.columns[counter];k ++){
+                   System.out.print(matrix[i][k] + "\t");
+           }
+           System.out.println();
+       }
+       counter++;
+   }
+   MultiplyMatrices();
+}
+
+public void MultiplyMatrices(){
+   int product[][] = new int[this.rows[0]][this.columns[1]];
+   int matrixA[][] = this.matrices.get(0);
+   int matrixB[][] = this.matrices.get(1);
+   
+   for(int i = 0; i < this.rows[0]; i++){
+       for(int k = 0; k < this.columns[1]; k++ ){
+           for(int c = 0; c < this.columns[0]; c++){
+               product[i][k] += matrixA[i][c] * matrixB[c][k];
+           }
+       }
+   }
+   this.product.add(product);
+  
+   DisplayProduct();
+}
+public void DisplayProduct(){
+   int product [][] = this.product.get(0);
+   System.out.println("Product of Matrices:");
+   for (int i = 0; i < this.rows[0]; i++){
+       for (int k = 0; k < this.columns[1]; k++){
+           System.out.print(product[i][k] + "\t");
+       }
+       System.out.println();
+   }
+   ComputeEntry();
+}
+
+public void ComputeEntry(){
+   
+   System.out.println("Compute the Product of Entered Row and Column");
+   System.out.println("Enter the row:");
+   int row = reader.nextInt();
+   
+   System.out.println("Enter the column:");
+   int column = reader.nextInt();
+   int matrixA[][] = this.matrices.get(0);
+   int matrixB[][] = this.matrices.get(1);
+   
+   int rowA[] = new int [this.columns[0]];
+   int columnB[] = new int [this.rows[1]];
+   
+   //Get The Element of Selected Row of Matrix A
+   for (int i = (row-1); i < row; i++){
+       for (int k = 0; k < this.columns[0]; k++){
+           rowA[k] = matrixA[i][k];
+       }
+   }
+   //Get the Element of Selected Column of Matrix B
+   for (int i = 0; i < this.rows[1]; i++){
+       for (int k = 0; k < this.columns[1]; k++){
+           if (k == (column-1)){
+               columnB[i] = matrixB[i][k];
+           }
+       }
+   }
+   
+   
+   //Display Selected Row
+   System.out.println("Selected Row of Matrix1");
+   for(int i = 0; i < rowA.length; i++){
+       System.out.print(rowA[i] + "\t");
+   }
+   
+   //Display Selected Column
+   System.out.println("\nSelected Column of Matrix2");
+   for(int i = 0; i < columnB.length; i++){
+       System.out.println(columnB[i]);
+   }
+   
+   //Transpose Selected Row
+   System.out.println("Transposed Row of Matrix1");
+   for(int i = 0; i < rowA.length; i++){
+       System.out.println(rowA[i]);
+   }
+   
+   int contain[] = new int [(rowA.length + columnB.length)/2];
+   
+   System.out.println("Product of Row and Column");
+   for(int i = 0; i < contain.length; i++){
+       contain[i] = rowA[i] * columnB[i];
+       System.out.print(contain[i] + "\t");
+   }
+   
+   int total_sum = 0;
+   //Display Contain
+   for(int i = 0; i < contain.length; i++){
+       total_sum += contain[i];
+   }
+   System.out.println("\nThe total sum: " + total_sum);
+}
+}
